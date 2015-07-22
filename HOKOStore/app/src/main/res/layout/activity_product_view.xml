@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:configChanges="orientation"
+    android:screenOrientation="portrait"
+    tools:context="com.hoko.hokostore.ProductViewActivity">
+    
+    <ImageView
+        android:id="@+id/singleProductImageView"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        tools:ignore="ContentDescription"
+        android:scaleType="centerCrop"
+        />
+    
+    <TextView
+        android:id="@+id/singleProductPriceTextView"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_marginTop="-33dp"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:background="#4D000000"
+        android:textColor="#FFFFFFFF"
+        />
+
+    <TextView
+        android:id="@+id/singleProductNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="32sp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/singleProductDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:configChanges="orientation"
+        android:screenOrientation="portrait">
+
+        <Button
+            android:id="@+id/buyNowButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="5dp"
+            android:text="BUY NOW" />
+
+    </RelativeLayout>
+
+</LinearLayout>

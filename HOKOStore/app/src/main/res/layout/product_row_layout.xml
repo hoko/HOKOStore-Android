@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:configChanges="orientation"
+    android:screenOrientation="portrait"
+    android:layout_height="250dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/productImageView"
+            android:layout_width="match_parent"
+            android:layout_height="188dp"
+            tools:ignore="ContentDescription"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:id="@+id/productTextView"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:textAlignment="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="-10dp"
+            android:textSize="36sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/discountBadge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/discount_badge_design"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="invisible"
+        android:textColor="#FFFFFFFF"
+        android:gravity="center"
+        />
+
+
+</RelativeLayout>
