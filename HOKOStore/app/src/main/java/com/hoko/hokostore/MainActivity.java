@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.getSharedPreferences("MyPreferences", 0).edit().clear().commit();
+        //this.getSharedPreferences("MyPreferences", 0).edit().clear().commit();
 
 
         Product[] products = {

@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -105,9 +108,17 @@ public class ProductViewActivity extends Activity {
         if (this.currentCoupon == null) {
             priceTextView.setText("$" + this.currentProduct.getPrice());
         } else {
-            String text = "<b>$" + String.format("%.2f", this.currentProduct.getPrice() - this.currentCoupon.getValue()) + "</b> — " +
-                    "<strike><font color='red'>$" + this.currentProduct.getPrice() + "</font>";
+            String text = "<b>$" + String.format("%.2f", this.currentProduct.getPrice() -
+                    this.currentCoupon.getValue()) + "</b> — ";
             priceTextView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+            int length = priceTextView.length();
+            text = text + "<font color='red'>$" + this.currentProduct.getPrice() + "</font>";
+
+            priceTextView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+            Spannable spannable = (Spannable) priceTextView.getText();
+            spannable.setSpan(new StrikethroughSpan(), length, priceTextView.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
     }
 

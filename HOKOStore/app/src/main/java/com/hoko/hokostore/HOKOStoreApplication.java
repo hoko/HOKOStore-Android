@@ -16,7 +16,6 @@ public class HOKOStoreApplication extends Application {
 
         Hoko.setup(this, "b18577532f0ef1d71cfc9e9ce670bca440cf2b69");
         Hoko.setVerbose(true);
-
     }
 
     public static void saveCouponForProduct(Context ctx, int productID, Coupon coupon) {
