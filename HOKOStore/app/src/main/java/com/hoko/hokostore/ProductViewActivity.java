@@ -50,7 +50,7 @@ public class ProductViewActivity extends Activity {
     // be displayed.
     private boolean hasRedeemedACoupon;
 
-    // A private variable that will hold the Coupon object, if there's one.
+    // A private variable that will hold the Coupon object, if there is one.
     private Coupon currentCoupon;
 
     // A private variable that will hold the current Product object.
