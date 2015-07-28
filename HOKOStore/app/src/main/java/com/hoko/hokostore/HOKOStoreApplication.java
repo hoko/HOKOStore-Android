@@ -3,9 +3,11 @@ package com.hoko.hokostore;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.hokolinks.Hoko;
 import com.hokolinks.deeplinking.listeners.LinkGenerationListener;
+import com.hokolinks.exitpoints.model.Exit;
 import com.hokolinks.model.Deeplink;
 import com.hokolinks.model.DeeplinkCallback;
 
@@ -35,40 +37,18 @@ public class HOKOStoreApplication extends Application {
         //we set 'verbose' to 'true' in order to the SDK print messages on the console
         Hoko.setVerbose(true);
 
-        Hoko.deeplinking().mapRoute("Video/:streamId", new DeeplinkCallback() {
+
+        Exit.getExitWithIdentifier("JM1S0HG", new Exit.ExitResponseListener() {
             @Override
-            public void deeplinkOpened(Deeplink deeplink) {
-                String streamId = deeplink.getRouteParameters().get("streamId");
-                Long startTime = deeplink.getMetadata().optLong("startTime");
-                //Start MainActivity with these paramters
+            public void onSucccess(Exit exit) {
+                Log.e("EXIT", exit.toString());
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                exception.printStackTrace();
             }
         });
-
-        HashMap routeParameters = new HashMap();
-        routeParameters.put("streamId", "grande_stream");
-        HashMap queryParameters = new HashMap();
-        queryParameters.put("referrer", "app");
-        JSONObject metadata = new JSONObject();
-        try {
-            metadata.putOpt("startTime", 0);
-        } catch (JSONException ex) {
-        }
-        Deeplink deeplink = Deeplink.deeplink("Video/:streamId", routeParameters, queryParameters, metadata);
-//deeplink.addURL(getString(R.string.web_voola_link) + "/Video/:streamId", DeeplinkPlatform.WEB);
-//deeplink.addURL(getString(R.string.hoko_scheme) + "Video/:streamId", DeeplinkPlatform.ANDROID);
-        Hoko.deeplinking().generateSmartlink(deeplink, new LinkGenerationListener() {
-            @Override
-            public void onLinkGenerated(String smartlink) {
-                String smartLink = smartlink;
-            }
-
-            @Override
-            public void onError(Exception e) {
-//Social.getInstance().shareProduct(mProduct.getName(), mProduct.getLink());
-                Exception ex = e;
-            }
-        });
-
     }
 
     public static void saveCouponForProduct(Context ctx, int productID, Coupon coupon) {
