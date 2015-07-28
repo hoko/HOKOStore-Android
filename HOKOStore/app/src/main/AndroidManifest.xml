@@ -29,11 +29,10 @@
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <data android:scheme="black"/>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
@@ -43,8 +42,8 @@
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter> <!-- android:autoVerify="true"-->
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
                 <data
                     android:host="black.hoko.link"
                     android:scheme="http" />
@@ -52,7 +51,6 @@
                     android:host="black.hoko.link"
                     android:scheme="https" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
