@@ -31,7 +31,7 @@
             android:noHistory="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
-                <data android:scheme="black" />
+                <data android:scheme="black"/>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -51,7 +51,6 @@
                 <data
                     android:host="black.hoko.link"
                     android:scheme="https" />
-
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
