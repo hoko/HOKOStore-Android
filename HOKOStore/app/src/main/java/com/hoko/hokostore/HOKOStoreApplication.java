@@ -19,7 +19,8 @@ public class HOKOStoreApplication extends Application {
     }
 
     public static void saveCouponForProduct(Context ctx, int productID, Coupon coupon) {
-        SharedPreferences preferences = ctx.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences preferences = ctx.getSharedPreferences("MyPreferences",
+                Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         editor.putString(getPreferencesKeyStringForProductCouponName(productID), coupon.getName());
@@ -31,14 +32,20 @@ public class HOKOStoreApplication extends Application {
     }
 
     public static Coupon getAvailableDiscountForProduct(Context ctx, int productID) {
-        SharedPreferences preferences = ctx.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        SharedPreferences preferences = ctx.getSharedPreferences("MyPreferences",
+                Context.MODE_PRIVATE);
 
-        String couponName = preferences.getString(getPreferencesKeyStringForProductCouponName(productID), null);
+        String couponName = preferences.getString(
+                getPreferencesKeyStringForProductCouponName(productID),
+                null
+        );
 
         if (couponName == null)
             return null;
 
-        double couponValue = Double.longBitsToDouble(preferences.getLong(Integer.toString(productID), 0));
+        double couponValue = Double.longBitsToDouble(
+                preferences.getLong(getPreferencesKeyStringForProductCouponValue(productID), 0)
+        );
 
         return new Coupon(couponName, couponValue);
 
