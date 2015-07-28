@@ -1,11 +1,10 @@
 package com.hoko.hokostore;
 
-import android.graphics.drawable.Drawable;
 
 /**
- * Created by pedrovieira on 21/07/15.
+ * Created by Pedro Vieira on 22/07/15.
+ * Copyright © 2015 HOKO. All rights reserved.
  */
-
 public class Product {
     private int id;
     private String title;

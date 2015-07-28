@@ -1,7 +1,8 @@
 package com.hoko.hokostore;
 
 /**
- * Created by pedrovieira on 22/07/15.
+ * Created by Pedro Vieira on 22/07/15.
+ * Copyright © 2015 HOKO. All rights reserved.
  */
 public class Coupon {
     private String name;

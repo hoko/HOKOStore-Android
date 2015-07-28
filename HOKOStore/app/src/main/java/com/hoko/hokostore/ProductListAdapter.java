@@ -12,7 +12,8 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 /**
- * Created by pedrovieira on 21/07/15.
+ * Created by Pedro Vieira on 22/07/15.
+ * Copyright © 2015 HOKO. All rights reserved.
  */
 public class ProductListAdapter extends ArrayAdapter<Product> {
 
@@ -47,6 +48,9 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         return convertView;
     }
 
+    // The 'setupDiscountBadge()' method will show a discount badge in the product's ListView
+    // cell that displays the discount percentage only if the user has already redeemed a
+    // coupon for the current product.
     private void setupDiscountBadge (ProductViewHolder viewHolder, int position) {
         Coupon coupon = HOKOStoreApplication.getAvailableDiscountForProduct(getContext(),  getItem(position).getId());
         if (coupon == null) {
