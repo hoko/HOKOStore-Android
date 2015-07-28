@@ -21,7 +21,7 @@ public class HOKOStoreApplication extends Application {
         //
         // NOTE: We advise the developer to create a subclass of Application and to set up
         // HOKO on the 'onCreate()' method. By doing the setup in an Application subclass,
-        // it guarantees you that the SDK will be initiated when the application is launched.
+        // it guarantees you that the SDK will be initialized when the application is launched.
         Hoko.setup(this, "b18577532f0ef1d71cfc9e9ce670bca440cf2b69");
 
         //we set 'verbose' to 'true' in order to the SDK print messages on the console
