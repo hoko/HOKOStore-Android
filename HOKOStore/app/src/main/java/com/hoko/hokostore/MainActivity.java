@@ -2,11 +2,14 @@ package com.hoko.hokostore;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.hokolinks.exitpoints.ExitPoints;
+import com.hokolinks.exitpoints.model.Exit;
+import com.hokolinks.exitpoints.model.ExitApp;
 
 /**
  * Created by Pedro Vieira on 22/07/15.
@@ -40,6 +43,22 @@ public class MainActivity extends Activity {
                                                     }
                                                 }
         );
+        ExitPoints.presentExitPoints(this, "y1DV4Y7", "title", new ExitPoints.ExitPointsListener() {
+            @Override
+            public void onShow(Exit exit) {
+
+            }
+
+            @Override
+            public void onException(Exception exception) {
+
+            }
+
+            @Override
+            public void onAppOpened(ExitApp app, boolean googlePlay) {
+
+            }
+        });
     }
 
     @Override
@@ -52,5 +71,6 @@ public class MainActivity extends Activity {
                 listAdapter.notifyDataSetChanged();
             }
         });
+
     }
 }

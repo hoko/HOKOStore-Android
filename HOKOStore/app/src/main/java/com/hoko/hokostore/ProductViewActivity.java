@@ -32,19 +32,17 @@ import org.json.JSONObject;
 @DeeplinkRoute("product/:product_id")
 public class ProductViewActivity extends Activity {
 
+    // The HOKO smart link's metadata object variable. Similarly to the previous variable, by using
+    // the annotation @DeeplinkMetadata, the SDK will automatically set the value to this var
+    // when you use Hoko.deeplinking().inject(this) on the 'onCreate()' method.
+    @DeeplinkMetadata
+    public JSONObject metadata;
     // This variable will hold the product ID from the HOKO smart link. For instance,
     // if your URI is 'yourapp://product/2', the variable will get the value '2'.
     // By using the annotation @DeeplinkRouteParameter the SDK will automatically set the value to
     // this var when you use 'Hoko.deeplinking().inject(this)' on the 'onCreate()' method.
     @DeeplinkRouteParameter("product_id")
     private int productID;
-
-    // The HOKO smart link's metadata object variable. Similarly to the previous variable, by using
-    // the annotation @DeeplinkMetadata, the SDK will automatically set the value to this var
-    // when you use Hoko.deeplinking().inject(this) on the 'onCreate()' method.
-    @DeeplinkMetadata
-    public JSONObject metadata;
-
     // A private boolean variable that is used to know whether this Activity was
     // called from a HOKO smart link with a coupon metadata. If so, a new Alert will
     // be displayed.
@@ -55,7 +53,6 @@ public class ProductViewActivity extends Activity {
 
     // A private variable that will hold the current Product object.
     private Product currentProduct;
-
 
 
     @Override

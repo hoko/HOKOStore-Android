@@ -1,16 +1,27 @@
 package com.hokolinks.exitpoints.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ivanbruel on 28/07/15.
- */
-public class ExitAppsAction {
+public class ExitAppsAction implements Parcelable {
 
+    public static final Parcelable.Creator<ExitAppsAction> CREATOR = new Parcelable.Creator<ExitAppsAction>() {
+        public ExitAppsAction createFromParcel(@NonNull Parcel source) {
+            return new ExitAppsAction(source);
+        }
+
+        @NonNull
+        public ExitAppsAction[] newArray(int size) {
+            return new ExitAppsAction[size];
+        }
+    };
     // Fields
     private String mIdentifier;
     private String mName;
@@ -25,6 +36,12 @@ public class ExitAppsAction {
         mIdentifier = identifier;
         mName = name;
         mApps = apps;
+    }
+
+    protected ExitAppsAction(Parcel in) {
+        this.mIdentifier = in.readString();
+        this.mName = in.readString();
+        this.mApps = in.createTypedArrayList(ExitApp.CREATOR);
     }
 
     protected static List<ExitAppsAction> actionsFromJSONArray(JSONArray jsonArray) {
@@ -47,9 +64,21 @@ public class ExitAppsAction {
     @Override
     public String toString() {
         return "ExitAppsAction{" +
-                "mIdentifier='" + mIdentifier + '\'' +
-                ", mName='" + mName + '\'' +
-                ", mApps=" + mApps +
+                "identifier='" + mIdentifier + '\'' +
+                ", name='" + mName + '\'' +
+                ", apps=" + mApps +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(this.mIdentifier);
+        dest.writeString(this.mName);
+        dest.writeTypedList(mApps);
     }
 }
