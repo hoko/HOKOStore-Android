@@ -3,5 +3,8 @@
     android:id="@+id/titleTextView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:orientation="vertical"/>
+    android:layout_height="40dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:textColor="@color/gray_light"
+    android:textSize="18sp"/>

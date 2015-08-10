@@ -1,5 +1,8 @@
 package com.hokolinks.exitpoints.fragment;
 
+import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,8 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.hokolinks.exitpoints.R;
 import com.hokolinks.exitpoints.adapter.ExitAdapter;
@@ -30,7 +35,7 @@ public class ExitFragment extends Fragment implements ExitAppViewModel.ExitAppCl
     private static final String TITLE_BUNDLE_KEY = "title";
 
     private RecyclerView mRecyclerView;
-    private WrappedContentGridLayoutManager mGridLayoutManager;
+    private RelativeLayout mBackgroundRelativeLayout;
     private Exit mExit;
     private String mTitle;
 
@@ -53,6 +58,7 @@ public class ExitFragment extends Fragment implements ExitAppViewModel.ExitAppCl
         View rootView = inflater.inflate(R.layout.exitpoints_fragment, container, false);
         setupModel();
         setupViews(rootView);
+        animateBackgroundColorIn();
         return rootView;
     }
 
@@ -64,17 +70,80 @@ public class ExitFragment extends Fragment implements ExitAppViewModel.ExitAppCl
     }
 
     private void setupViews(View rootView) {
+        mBackgroundRelativeLayout =
+                (RelativeLayout) rootView.findViewById(R.id.backgroundRelativeLayout);
+        mBackgroundRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, @NonNull MotionEvent event) {
+                if (v != mRecyclerView) {
+                    closeFragment();
+                }
+                return true;
+            }
+        });
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setAdapter(new ExitAdapter(mViewModels));
 
-        mGridLayoutManager = new WrappedContentGridLayoutManager(getActivity(), 4);
-        mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        WrappedContentGridLayoutManager gridLayoutManager = new WrappedContentGridLayoutManager(getActivity(), 4);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 return mViewModels.get(position).spanSize();
             }
         });
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+    }
+
+    private void animateBackgroundColorIn() {
+        animateBackgroundColor(R.color.transparent, R.color.gray_50_opacity, 500, null);
+    }
+
+    private void animateBackgroundColorOut(Animator.AnimatorListener animatorListener) {
+        animateBackgroundColor(R.color.gray_50_opacity, R.color.transparent, 0, animatorListener);
+    }
+
+    private void animateBackgroundColor(int fromColorId, int toColorId, int delay, Animator.AnimatorListener animatorListener) {
+        Integer colorFrom = getResources().getColor(fromColorId);
+        Integer colorTo = getResources().getColor(toColorId);
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        colorAnimation.setDuration(500);
+        colorAnimation.setStartDelay(delay);
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(@NonNull ValueAnimator animator) {
+                mBackgroundRelativeLayout.setBackgroundColor((Integer) animator.getAnimatedValue());
+            }
+
+        });
+        if (animatorListener != null)
+            colorAnimation.addListener(animatorListener);
+        colorAnimation.start();
+    }
+
+    private void closeFragment() {
+        animateBackgroundColorOut(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                getFragmentManager().popBackStack();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                getFragmentManager().popBackStack();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     private List<ExitBaseViewModel> getViewModels() {

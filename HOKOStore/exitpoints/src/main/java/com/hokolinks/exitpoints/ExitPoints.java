@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.hokolinks.exitpoints.fragment.ExitFragment;
 import com.hokolinks.exitpoints.model.Exit;
 import com.hokolinks.exitpoints.model.ExitApp;
 
@@ -55,7 +56,14 @@ public class ExitPoints implements Exit.ExitResponseListener {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new ExitPointsContainer(mActivity).show(exit, mTitle, true);
+                ExitFragment exitFragment = ExitFragment.newInstance(exit, mTitle);
+                mActivity.getFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.animator.slide_top, R.animator.slide_bottom,
+                                R.animator.slide_top, R.animator.slide_bottom)
+                        .add(android.R.id.content, exitFragment)
+                        .addToBackStack("ExitPoints")
+                        .commit();
             }
         });
     }
