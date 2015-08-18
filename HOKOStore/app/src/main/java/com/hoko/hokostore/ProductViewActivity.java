@@ -37,24 +37,24 @@ public class ProductViewActivity extends Activity {
     // By using the annotation @DeeplinkRouteParameter the SDK will automatically set the value to
     // this var when you use 'Hoko.deeplinking().inject(this)' on the 'onCreate()' method.
     @DeeplinkRouteParameter("product_id")
-    private int productID;
+    private int mProductID;
 
-    // The HOKO smart link's metadata object variable. Similarly to the previous variable, by using
+    // The HOKO smart link's mMetadata object variable. Similarly to the previous variable, by using
     // the annotation @DeeplinkMetadata, the SDK will automatically set the value to this var
     // when you use Hoko.deeplinking().inject(this) on the 'onCreate()' method.
     @DeeplinkMetadata
-    public JSONObject metadata;
+    public JSONObject mMetadata;
 
     // A private boolean variable that is used to know whether this Activity was
-    // called from a HOKO smart link with a coupon metadata. If so, a new Alert will
+    // called from a HOKO smart link with a coupon mMetadata. If so, a new Alert will
     // be displayed.
-    private boolean hasRedeemedACoupon;
+    private boolean mRedeemedACoupon;
 
     // A private variable that will hold the Coupon object, if there is one.
-    private Coupon currentCoupon;
+    private Coupon mCurrentCoupon;
 
     // A private variable that will hold the current Product object.
-    private Product currentProduct;
+    private Product mCurrentProduct;
 
 
 
@@ -78,9 +78,10 @@ public class ProductViewActivity extends Activity {
 
             Intent intent = getIntent();
 
-            this.productID = intent.getIntExtra("id", 0);
-            Product myProduct = Product.getProductWithId(this.productID);
-            this.currentCoupon = HOKOStoreApplication.getAvailableDiscountForProduct(this, this.productID);
+            mProductID = intent.getIntExtra("id", 0);
+            Product myProduct = Product.getProductWithId(mProductID);
+
+            grabCouponIfAvailableForProduct(mProductID);
 
             setupActivityWithProduct(myProduct);
 
@@ -101,11 +102,11 @@ public class ProductViewActivity extends Activity {
 
             // We will try to create a Product object with the product ID given in the deep link's
             // data
-            Product myProduct = Product.getProductWithId(this.productID);
+            Product myProduct = Product.getProductWithId(mProductID);
             if (myProduct != null) {
 
                 // Check if the deep link contains metadata
-                if (this.metadata != null) {
+                if (mMetadata != null) {
 
                     // In this case, we will check if the deep link's contains the key 'coupon'
                     // which is its code and the key 'value' which is its discount value.
@@ -115,14 +116,14 @@ public class ProductViewActivity extends Activity {
                     // 'opt...()' instance method to get the value we want.
 
                     // the 'coupon' key contains a string value, so we use 'optString()'
-                    String couponName = metadata.optString("coupon");
+                    String couponName = mMetadata.optString("coupon", null);
 
                     // the 'value' key contains a numeric value, so we use 'optDouble()'
-                    double couponDiscount = metadata.optDouble("value");
+                    double couponDiscount = mMetadata.optDouble("value");
 
                     if (couponName != null) {
-                        this.hasRedeemedACoupon = true;
-                        this.currentCoupon = new Coupon(couponName, couponDiscount);
+                        mRedeemedACoupon = true;
+                        mCurrentCoupon = new Coupon(couponName, couponDiscount);
 
                         // We will save on the app's Shared Preferences that the user already has
                         // redeemed a coupon for product X which will be used later to show a
@@ -134,9 +135,12 @@ public class ProductViewActivity extends Activity {
                         // you can save it on your application's backend, making it more secure.
                         // This enables you to limit the amount of times each user can redeem your
                         // coupons by attaching the redeemed coupon data along with your user ID.
-                        HOKOStoreApplication.saveCouponForProduct(this, this.productID, this.currentCoupon);
+                        HOKOStoreApplication.saveCouponForProduct(this, mProductID, mCurrentCoupon);
                     }
                 }
+
+                // Grab a coupon, if available, that could have been redeemed in an earlier session
+                grabCouponIfAvailableForProduct(myProduct.getId());
 
                 // We display the product whether there was a coupon or not.
                 setupActivityWithProduct(myProduct);
@@ -152,46 +156,52 @@ public class ProductViewActivity extends Activity {
         super.onResume();
 
         // If a coupon was recently redeemed we will present an Alert to notify the user
-        if (this.hasRedeemedACoupon) {
-            this.showPopup("Congratulations",
-                    "You just redeemed '" + this.currentCoupon.getName() +
+        if (mRedeemedACoupon) {
+            showPopup("Congratulations",
+                    "You just redeemed '" + mCurrentCoupon.getName() +
                             "' coupon and received a discount of $" +
-                            this.currentCoupon.getValue() + " because you clicked on the right link!",
+                            mCurrentCoupon.getValue() + " because you clicked on the right link!",
                     "Awesome!");
         }
     }
 
+    private void grabCouponIfAvailableForProduct(int productID) {
+        if (mCurrentCoupon == null) {
+            mCurrentCoupon = HOKOStoreApplication.getAvailableDiscountForProduct(this, mProductID);
+        }
+    }
+
     private void setupActivityWithProduct(Product product) {
-        this.currentProduct = product;
+        mCurrentProduct = product;
 
         setTitle(product.getTitle());
 
         ImageView imgView = (ImageView) findViewById(R.id.singleProductImageView);
-        imgView.setImageResource(this.currentProduct.getImageResource());
+        imgView.setImageResource(mCurrentProduct.getImageResource());
 
-        this.setupPriceTextViewWithDiscount();
+        setupPriceTextViewWithDiscount();
 
         TextView nameTextView = (TextView) findViewById(R.id.singleProductNameTextView);
-        nameTextView.setText(this.currentProduct.getTitle());
+        nameTextView.setText(mCurrentProduct.getTitle());
 
         TextView descriptionTextView = (TextView) findViewById(R.id.singleProductDescriptionTextView);
-        descriptionTextView.setText(this.currentProduct.getDescription());
+        descriptionTextView.setText(mCurrentProduct.getDescription());
 
-        this.setupBuyButton();
+        setupBuyButton();
     }
 
     private void setupPriceTextViewWithDiscount() {
         TextView priceTextView = (TextView) findViewById(R.id.singleProductPriceTextView);
 
-        if (this.currentCoupon == null) {
-            priceTextView.setText("$" + this.currentProduct.getPrice());
+        if (mCurrentCoupon == null) {
+            priceTextView.setText("$" + mCurrentProduct.getPrice());
         } else {
-            String text = "<b>$" + String.format("%.2f", this.currentProduct.getPrice() -
-                    this.currentCoupon.getValue()) + "</b> — ";
+            String text = "<b>$" + String.format("%.2f", mCurrentProduct.getPrice() -
+                    mCurrentCoupon.getValue()) + "</b> — ";
             priceTextView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 
             int length = priceTextView.length();
-            text = text + "<font color='red'>$" + this.currentProduct.getPrice() + "</font>";
+            text = text + "<font color='red'>$" + mCurrentProduct.getPrice() + "</font>";
 
             priceTextView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 

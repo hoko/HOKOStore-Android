@@ -6,11 +6,11 @@ package com.hoko.hokostore;
  * Copyright © 2015 HOKO. All rights reserved.
  */
 public class Product {
-    private int id;
-    private String title;
-    private String description;
-    private int imageResource;
-    private float price;
+    private int mID;
+    private String mTitle;
+    private String mDescription;
+    private int mImageResource;
+    private float mPrice;
 
     public static Product getProductWithId(int id) {
         switch (id) {
@@ -31,28 +31,28 @@ public class Product {
     }
 
     private Product(int id, String title, String description, int imageResource, float price) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.imageResource = imageResource;
-        this.price = price;
+        mID = id;
+        mTitle = title;
+        mDescription = description;
+        mImageResource = imageResource;
+        mPrice = price;
     }
 
     public int getId() {
-        return this.id;
+        return mID;
     }
 
     public String getTitle() {
-        return this.title;
+        return mTitle;
     }
 
     public String getDescription() {
-        return this.description;
+        return mDescription;
     }
 
-    public int getImageResource() { return this.imageResource; }
+    public int getImageResource() { return mImageResource; }
 
     public float getPrice() {
-        return this.price;
+        return mPrice;
     }
 }

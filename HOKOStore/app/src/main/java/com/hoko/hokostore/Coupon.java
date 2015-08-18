@@ -5,19 +5,19 @@ package com.hoko.hokostore;
  * Copyright © 2015 HOKO. All rights reserved.
  */
 public class Coupon {
-    private String name;
-    private double value;
+    private String mName;
+    private double mValue;
 
     public Coupon(String name, double value) {
-        this.name = name;
-        this.value = value;
+        mName = name;
+        mValue = value;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public double getValue() {
-        return value;
+        return mValue;
     }
 }

@@ -1,15 +1,12 @@
 package com.hoko.hokostore;
 
 import android.content.Context;
-import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Pedro Vieira on 22/07/15.
@@ -43,7 +40,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         productViewHolder.nameLabel.setText(currentProduct.getTitle());
         productViewHolder.imageView.setImageResource(currentProduct.getImageResource());
 
-        this.setupDiscountBadge(productViewHolder, position);
+        setupDiscountBadge(productViewHolder, position);
 
         return convertView;
     }
