@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.hokolinks.Hoko;
-import com.hokolinks.utils.networking.async.HttpRequest;
 
 /**
  * Created by Pedro Vieira on 22/07/15.
@@ -27,8 +26,6 @@ public class HOKOStoreApplication extends Application {
 
         //we set 'verbose' to 'true' in order to the SDK print messages on the console
         Hoko.setVerbose(true);
-
-        Hoko.deeplinking().openSmartlink("http://black.hoko.link/preto");
     }
 
     public static void saveCouponForProduct(Context ctx, int productID, Coupon coupon) {
